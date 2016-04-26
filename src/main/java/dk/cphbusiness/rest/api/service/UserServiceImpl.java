@@ -1,67 +1,43 @@
 package dk.cphbusiness.rest.api.service;
 
 import dk.cphbusiness.rest.api.model.User;
+import dk.cphbusiness.rest.api.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static List<User> users;
+    private final UserRepository userRepository;
 
-    static {
-        users = populateDummyUsers();
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public List<User> findByRole(String role) {
-        List<User> matched = new ArrayList<>();
-        for (User user : users) {
-            if (user.getRole().equalsIgnoreCase(role)) {
-                matched.add(user);
-            }
-        }
-        return matched;
+        return userRepository.findByRoleIgnoreCase(role);
     }
 
     @Override
     public User findByUserName(String userName) {
-        for (User user : users) {
-            if (user.getUserName().equals(userName)) {
-                return user;
-            }
-        }
-        return null;
+        return userRepository.findByUserName(userName);
     }
 
     @Override
     public void saveUser(User user) {
-        users.add(user);
+        userRepository.save(user);
     }
 
     @Override
     public void deleteUserByUserName(String userName) {
-        for (Iterator<User> iterator = users.iterator(); iterator.hasNext(); ) {
-            User user = iterator.next();
-            if (user.getUserName().equals(userName)) {
-                iterator.remove();
-            }
-        }
+        userRepository.delete(userName);
     }
 
     @Override
     public boolean exist(User user) {
-        return users.contains(user);
-    }
-
-    private static List<User> populateDummyUsers() {
-        List<User> users = new ArrayList<User>();
-        users.add(new User("John", "password", "user"));
-        users.add(new User("Jill", "password", "user"));
-        users.add(new User("James", "password", "user"));
-        users.add(new User("Antony", "megaSecurePassword", "admin"));
-        return users;
+        return userRepository.exists(user.getUserName());
     }
 }
