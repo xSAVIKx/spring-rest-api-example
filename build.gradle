@@ -15,6 +15,7 @@ apply plugin: 'idea'
 apply plugin: 'groovy'
 apply plugin: 'java'
 apply plugin: 'spring-boot'
+apply plugin: 'application'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -22,22 +23,25 @@ targetCompatibility = 1.7
 repositories {
     mavenCentral()
 }
+mainClassName = "dk.cphbusiness.rest.api.Application"
+applicationDefaultJvmArgs = [
+        "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+]
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-data-rest')
-    compile('org.springframework.boot:spring-boot-starter-security')
-    compile('org.springframework.boot:spring-boot-starter-validation')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
 
     compile('org.projectlombok:lombok:1.16.8')
 
-    compile('org.hibernate:hibernate-core:5.1.0.Final')
-    compile('org.hibernate:hibernate-entitymanager:5.1.0.Final')
+    compile('org.hibernate:hibernate-core:4.3.11.Final')
+    compile('org.hibernate:hibernate-entitymanager:4.3.11.Final')
     compile('org.hibernate:hibernate-validator:5.2.4.Final')
     compile('com.h2database:h2:1.4.191')
 
-
+    compile('org.jasypt:jasypt:1.9.2')
+    compile('org.jasypt:jasypt-hibernate4:1.9.2')
+    compile('org.bouncycastle:bcprov-jdk15on:1.54')
 
     testCompile('org.hibernate:hibernate-testing:5.1.0.Final')
     testCompile('org.springframework.boot:spring-boot-starter-test')
