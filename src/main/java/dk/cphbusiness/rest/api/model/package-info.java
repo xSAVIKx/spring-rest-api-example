@@ -2,7 +2,7 @@
         name = "encryptedString",
         typeClass = EncryptedStringType.class,
         parameters = {
-                @Parameter(name = "encryptorRegisteredName", value = "strongHibernateStringEncryptor")
+                @Parameter(name = "encryptorRegisteredName", value = "strongHibernateStringEncryptor"),
         }
 )
 package dk.cphbusiness.rest.api.model;
